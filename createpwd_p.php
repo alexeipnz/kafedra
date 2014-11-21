@@ -39,7 +39,7 @@ $mail->Host = 'smtp.gmail.com';
 $mail->Port = 587;
 $mail->SMTPSecure = 'tls';
 $mail->SMTPAuth = true;
-$mail->Username = 'kafedrasapr@gmail.com';
+$mail->Username = $smtpEmail;
 $mail->Password = $smtpPwd;
 $from = base64_encode('Почтовый робот');
 $mail->FromName = "=?UTF-8?B?$from?=";

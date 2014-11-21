@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `authors` (
 --
 
 INSERT INTO `authors` (`id`, `name`, `isforeign`, `studentgroup`, `isaspirant`, `welcomename`, `email`, `pwd`) VALUES
-(36, 'Иванов И. И.', 0, '', 0, 'Иван Иванович', 'alexei-ag@yandex.ru', '4609382ecb327413846c2f192e8dbf7f01999de1');
+(36, 'Иванов И. И.', 0, '', 0, 'Иван Иванович', 'test@example.com', '4609382ecb327413846c2f192e8dbf7f01999de1');
 
 -- --------------------------------------------------------
 

@@ -1,6 +1,6 @@
 <?php
 
-include 'secret.php'; // contains $dbUser, $dbPwd, $smtpPwd
+include 'secret.php'; // contains $dbUser, $dbPwd, $smtpPwd, $smtpEmail
 
 
 $mysqli = new mysqli('localhost', $dbUser, $dbPwd, 'kafedra-git');
