@@ -1,0 +1,60 @@
+a {
+    text-decoration: none;
+}
+
+input[type="text"], input[type="password"] {
+    width: 300px;
+}
+
+input[type="text"].publname {
+    width: 700px;
+}
+
+input[type="text"].publyear {
+    width: 60px;
+}
+
+select.authorlist {
+    width: 160px;
+}
+
+select {
+    max-width: 700px;
+}
+
+div.inlinedata {
+    border: 1px solid silver;
+    padding: 10px;
+    margin: 10px;
+    display: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid silver;
+    padding: 1px 7px;
+}
+
+div.group {
+    display: inline-block;
+}
+
+div.space {
+    display: inline-block;
+    width: 30px;
+}
+
+.highlight {
+    background-color: #f0f0ff;
+}
+
+.aligntop {
+    vertical-align: top;
+}
+
+.center {
+    text-align: center;
+}
