@@ -1,5 +1,6 @@
 <?php
 
+
 include 'common.php';
 
 ShowHeader('Кафедра САПР');
