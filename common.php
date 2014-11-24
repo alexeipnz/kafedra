@@ -800,14 +800,14 @@ function GetHtmlElement($table, $field, $attribs = '', $inner = '', $parent = ''
                 $text = htmlspecialchars($obj->$field);
                 $attribs .= "value=\"$text\" ";
             }
-            return "<input $attribs/>";
+            return "<input class='form-control' $attribs/>";
         }
     case 'checkbox':
         {
             if ($obj && $obj->$field)
                 $attribs .= 'checked="checked" ';
             $attribs .= 'type="checkbox" ';
-            return "<input $attribs/>";
+            return "<input class='checkbox' $attribs/>";
         }
     case 'hidden':
         {
