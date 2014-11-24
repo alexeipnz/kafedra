@@ -144,8 +144,11 @@ function ShowHeader($title)
 <html>
     <head>
         <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />
+        <link href=\"/bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\" media=\"screen\">
+        <script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.min.js\"></script>
         <link rel=\"stylesheet\" type=\"text/css\" href=\"common2.css\" />
         <script type=\"text/javascript\" src=\"common2.js\"></script>$jsData
+
         <title>$title</title>
     </head>
     <body>$welcome";
@@ -816,7 +819,7 @@ function GetHtmlElement($table, $field, $attribs = '', $inner = '', $parent = ''
     case 'selectmulti':
     case 'select':
         {
-            return "<select $attribs>$inner</select>";
+            return "<select class='form-control' $attribs>$inner</select>";
         }
     }
 }

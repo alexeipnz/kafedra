@@ -1,16 +1,25 @@
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
 <?php
 
 include 'common.php';
 
 ShowHeader('Кафедра САПР');
-
-echo 'Email: <input type="text" id="email" />';
+?>
+<form role="form">
+<div class="form-group">
+<?php
+echo 'Email: <input type="text" id="email" class="form-control"/>';
 echo '<br />';
-echo 'Пароль: <input type="password" id="pwd" />';
-echo ' <a href="javascript:createPwd()">Сгенерировать</a>';
+echo 'Пароль: <input type="password" id="pwd" class="form-control"/>';
+echo ' <a href="javascript:createPwd()" class="btn">Сгенерировать</a>';
 echo '<br />';
-echo '<a href="javascript:login()">Войти</a>';
-
+echo '<a href="javascript:login()" class="btn">Войти</a>';
+?>
+</div>
+</form>
+<?php
 ShowFooter();
 
 ?>
