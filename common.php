@@ -800,14 +800,14 @@ function GetHtmlElement($table, $field, $attribs = '', $inner = '', $parent = ''
                 $text = htmlspecialchars($obj->$field);
                 $attribs .= "value=\"$text\" ";
             }
-            return "<input class='form-control' $attribs/>";
+            return "<input class='form-control col-sm-7' $attribs/>";
         }
     case 'checkbox':
         {
             if ($obj && $obj->$field)
                 $attribs .= 'checked="checked" ';
             $attribs .= 'type="checkbox" ';
-            return "<input class='checkbox' $attribs/>";
+            return "<input type='checkbox' class='col-sm-7' $attribs/>";
         }
     case 'hidden':
         {
@@ -819,7 +819,7 @@ function GetHtmlElement($table, $field, $attribs = '', $inner = '', $parent = ''
     case 'selectmulti':
     case 'select':
         {
-            return "<select class='form-control' $attribs>$inner</select>";
+            return "<select class='form-control col-sm-7' $attribs>$inner</select>";
         }
     }
 }
