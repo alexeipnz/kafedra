@@ -78,17 +78,29 @@ echo "<a href=\"javascript:upsert('$table','$parent',$id)\">$btnName</a>";
 
 function ShowAuthorForm($table, $obj)
 {
-    echo 'Фамилия И. О.: ';
+    echo "<form class='form-horizontal' role='form'>";
+
+    echo "<div class='form-group'>";
+    echo "<label for='authorsname' class='control-label col-sm-4'>Фамилия И. О.:</label>";
     echo GetHtmlElement($table, 'name', '', '', '', $obj);
     echo '<br />';
+    echo "</div>";
 
-    echo 'Иностранный: ';
+    echo "<div class='form-group'>";
+    echo "<label for='authorsisforeign' class='control-label col-sm-4'>Иностранный:</label>";
+//    echo 'Иностранный: ';
     echo GetHtmlElement($table, 'isforeign', '', '', '', $obj);
     echo '<br />';
+    echo "</div>";
 
-    echo 'Студент группы ';
+    echo "<div class='form-group'>";
+    echo "<label for='authorsstudentgroup' class='control-label col-sm-4'>Студент группы </label>";
+//    echo 'Студент группы ';
     echo GetHtmlElement($table, 'studentgroup', '', '', '', $obj);
     echo '<br />';
+    echo "</div>";
+
+    echo "</form>";
 }
 
 
@@ -98,15 +110,24 @@ function ShowJournalForm($table, $obj)
     $types = GetOptionsString2('journaltypes', $obj->type);
     $scevents = GetOptionsString2('scevents', $obj->sceventid, true);
 
+    echo "<form class='form-horizontal>";
 
-    echo 'Название: ';
+    echo "<div class='form-group'>";
+    echo "<label for='journalsname' class='control-label col-sm-4'>Название: </label>";
+//    echo 'Название: ';
     echo GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj);
+    echo "</div>";
     echo '<br />';
 
-    echo 'Тип: ';
+    echo "<div class='form-group'>";
+    echo "<label for='journalsname' class='control-label col-sm-4'>Тип: </label>";
+//    echo 'Тип: ';
     echo GetHtmlElement($table, 'type', '', $types);
+    echo "</div>";
     echo '<br />';
 
+    echo "<div class='form-group'>";
+    echo "<label for='journalsname' class='control-label col-sm-4'>Импакт-фактор: </label>";
     echo 'Импакт-фактор: ';
     echo GetHtmlElement($table, 'impfactor', 'class="publyear"', '', '', $obj);
     echo '<div class="space"></div>РИНЦ: ';
@@ -115,14 +136,17 @@ function ShowJournalForm($table, $obj)
     echo GetHtmlElement($table, 'reviewed', '', '', '', $obj);
     echo '<div class="space"></div>ВАК: ';
     echo GetHtmlElement($table, 'invak', '', '', '', $obj);
+    echo "</div>";
     echo '<br />';
-    
+
+    echo "<div class='form-group'>";
     echo 'Scopus: ';
     echo GetHtmlElement($table, 'inscopus', '', '', '', $obj);
     echo '<div class="space"></div>Web of Science: ';
     echo GetHtmlElement($table, 'inwos', '', '', '', $obj);
     echo '<div class="space"></div>Другие иностранные индексы: ';
     echo GetHtmlElement($table, 'inforeignindex', '', '', '', $obj);
+    echo "</div>";
     echo '<br />';
 
     echo '<div class="group">';
@@ -142,6 +166,8 @@ function ShowJournalForm($table, $obj)
     echo ' | <a href="javascript:del(\'scevents\',getSel(\'journalssceventid\'))">Удалить</a><br />';
     echo '<div class="inlinedata" id="scevents"></div>';
     echo '</div><br />';
+
+    echo "</form>";
 }
 
 
