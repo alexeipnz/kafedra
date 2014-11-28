@@ -1,10 +1,5 @@
 <?php
-
-
 include 'common.php';
-
-ShowHeader('Кафедра САПР');
-
 
 
 $selectedAuthor = isset($_COOKIE['author']) ? (int)$_COOKIE['author'] : 0;
@@ -13,199 +8,249 @@ $selectedAuthor = isset($_COOKIE['author']) ? (int)$_COOKIE['author'] : 0;
 $table = isset($_COOKIE['table']) ? $_COOKIE['table'] : '';
 if (!($table === 'publications' || $table === 'participations'))
     $table = 'publications';
-
-
-
-echo $table === 'publications' ? 'Публикации' : '<a href="javascript:reloadWithParam(\'table\',\'publications\')">Публикации</a>';
-echo ' | ';
-echo $table === 'participations' ? 'Научные мероприятия' : '<a href="javascript:reloadWithParam(\'table\',\'participations\')">Научные мероприятия</a>';
-echo '<br />';
-
-echo $selectedAuthor == $userid ? 'Мои' : "<a href=\"javascript:reloadWithParam('author',$userid)\">Мои</a>";
-echo ' | ';
-echo $selectedAuthor == 0 ? 'Все' : '<a href="javascript:reloadWithParam(\'author\',0)">Все</a>';
-echo ' | ';
-echo "<a href=\"javascript:showBlock('$table')\">Добавить</a>";
-echo '<br />';
-
-echo "<div class=\"inlinedata\" id=\"$table\"></div>";
-echo '<br />';
-
-
-
-
-if ($selectedAuthor)
-{
-    $author = Select('authors', $selectedAuthor);
-    echo '<b>';
-    echo htmlspecialchars($author->name);
-    echo '</b><br /><br />';
-}
-
-
-
-
-
-
-
-if ($table === 'publications')
-{
-    echo '<table><tr><th>№</th><th>Название</th>';
-    echo $selectedAuthor ? '<th>Соавторы</th>' : '<th>Авторы</th>';
-    echo '<th>Журнал</th><th>Издательство</th><th>Год</th><th>Страницы</th></tr>';
-    $cntr = 1;
-
-
-    if ($selectedAuthor)
-        $query = "SELECT publications.* FROM publications
-                    LEFT OUTER JOIN authorpublications ON publications.id = authorpublications.publicationid
-                    WHERE authorpublications.authorid = $selectedAuthor
-                    ORDER BY publications.year DESC, publications.name";
-    else
-        $query = 'SELECT * FROM publications ORDER BY year DESC, name';
-    $publications = SelectObjects($query);
-    foreach ($publications as $publication)
-    {
-        echo '<tr>';
-
-
-        echo '<td>';
-        echo $cntr++;
-        echo '</td>';
-
-
-
-        echo '<td>';
-        echo "<a href=\"javascript:showBlock('publications',$publication->id)\">";
-        echo htmlspecialchars($publication->name);
-        echo '</a>';
-        echo '</td>';
-
-
-        echo '<td>';
-        if ($selectedAuthor)
-            $query = "SELECT authors.* FROM authorpublications
-                        LEFT OUTER JOIN authors ON authors.id = authorpublications.authorid
-                        WHERE authorpublications.publicationid = $publication->id AND
-                            authors.id <> $selectedAuthor
-                        ORDER BY authors.name";
-        else
-            $query = "SELECT authors.* FROM authorpublications
-                        LEFT OUTER JOIN authors ON authors.id = authorpublications.authorid
-                        WHERE authorpublications.publicationid = $publication->id
-                        ORDER BY authors.name";
-        $coauthors = SelectObjects($query);
-        $coauthorsStr = '';
-        foreach ($coauthors as $coauthor)
-        {
-            if (strlen($coauthorsStr))
-                $coauthorsStr .= ', ';
-            $coauthorsStr .= "<a href=\"javascript:reloadWithParam('author',$coauthor->id)\">" . htmlspecialchars($coauthor->name) . '</a>';
+?>
+    <div class="container">
+    <?php ShowHeader('Кафедра САПР'); ?>
+    <ul class="nav nav-pills">
+        <?php
+        if ($table === 'publications') {
+            ?>
+            <li role="presentation" class="active"><a href="javascript:reloadWithParam('table','publications')">Публикации</a>
+            </li>
+            <li role="presentation"><a href="javascript:reloadWithParam('table','participations')">Научные
+                    мероприятия</a></li>
+        <?php
+        } else {
+            ?>
+            <li role="presentation"><a href="javascript:reloadWithParam('table','publications')">Публикации</a></li>
+            <li role="presentation" class="active"><a href="javascript:reloadWithParam('table','participations')">Научные
+                    мероприятия</a></li>
+        <?php
         }
-        echo $coauthorsStr;
-        echo '</td>';
+        ?>
+    </ul>
 
 
-        echo '<td>';
-        if ($publication->type == 1)
-        {
-            $journal = Select('journals', $publication->journalid);
-            echo htmlspecialchars($journal->name);
-            if (strlen($publication->journalnumber))
-                echo htmlspecialchars(". – $publication->journalnumber");
-        }
-        echo '</td>';
+    <br/>
 
+    <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
 
-        echo '<td>';
-        $publisher = Select('publishers', $publication->type == 1 ? $journal->publisherid : $publication->publisherid);
-        if (strlen($publisher->city))
-            echo htmlspecialchars("$publisher->city: ");
-        echo htmlspecialchars($publisher->name);
-        echo '</td>';
+            <li role='presentation' class='active'><a href="javascript:reloadWithParam('author', <?= $userid; ?>)"
+                                                      aria-controls='my' role='tab' data-toggle='tab'>Мои</a></li>
 
+            <li role='presentation' class='active'><a href="javascript:reloadWithParam('author',0)"
+                                                      aria-controls='all' role='tab' data-toggle='tab'>Все</a></li>
 
-        echo "<td>$publication->year</td>";
+            <li role='presentation' class='active'><a href="javascript:showBlock('<?= $table; ?>')" aria-controls='add'
+                                                      role='tab' data-toggle='tab'>Добавить</a></li>
+        </ul>
+    </div>
 
+    <div class="tab-content">
 
-        echo '<td>';
-        echo $publication->type == 1 ? "$publication->journalpagestart-$publication->journalpageend" : $publication->numpages;
-        echo '</td>';
+    <div class="inlinedata" id="<?= $table ?>"></div>
+    <?php
+    if ($selectedAuthor) {
+        $author = Select('authors', $selectedAuthor);
+        ?>
 
-
-        echo '<td>';
-        echo "<a href=\"javascript:del('publications',$publication->id)\">X</a>";
-        echo '</td>';
-
-
-        echo '</tr>';
+        <br/>
+        <b>
+            <?=
+            htmlspecialchars($author->name); ?>
+        </b>
+        <br/>
+        <br/>
+    <?php
     }
-    echo '</table>';
-}
-else
-{
-    echo '<table><tr><th>№</th><th>Название</th>';
-    if (!$selectedAuthor)
-        echo '<th>Участник</th>';
-    echo '<th>Место</th><th>Дата</th><th>Год</th></tr>';
-    $cntr = 1;
+    if ($table === 'publications') {
+        ?>
+        <table class="table table-striped">
+            <tr>
+                <th>№</th>
+                <th>Название</th>
+                <?= $selectedAuthor ? '<th>Соавторы</th>' : '<th>Авторы</th>'; ?>
+                <th>Журнал</th>
+                <th>Издательство</th>
+                <th>Год</th>
+                <th>Страницы</th>
+                <th>Удалить</th>
+            </tr>
+            <?php
+            $cntr = 1;
 
-    if ($selectedAuthor)
-        $query = "SELECT participations.id,
-                        scevents.name, scevents.date, scevents.place, scevents.year
-                    FROM participations
-                    LEFT OUTER JOIN scevents ON scevents.id = participations.sceventid
-                    WHERE participations.authorid = $selectedAuthor
-                    ORDER BY scevents.year DESC, scevents.name";
-    else
-        $query = 'SELECT participations.id, participations.authorid, authors.name AS authorname,
-                        scevents.name, scevents.date, scevents.place, scevents.year
-                    FROM participations
-                    LEFT OUTER JOIN scevents ON scevents.id = participations.sceventid
-                    LEFT OUTER JOIN authors ON authors.id = participations.authorid
-                    ORDER BY scevents.year DESC, scevents.name';
-    $participations = SelectObjects($query);
-    foreach ($participations as $participation)
-    {
-        echo '<tr>';
+            if ($selectedAuthor)
+                $query = "SELECT publications.* FROM publications
+        LEFT OUTER JOIN authorpublications ON publications.id = authorpublications.publicationid
+        WHERE authorpublications.authorid = $selectedAuthor
+        ORDER BY publications.year DESC, publications.name";
+            else
+                $query = 'SELECT * FROM publications ORDER BY year DESC, name';
+            $publications = SelectObjects($query);
+            foreach ($publications as $publication) {
+                ?>
+                <tr>
+                    <td>
+                        <?= $cntr++; ?>
+                    </td>
 
-        echo '<td>';
-        echo $cntr++;
-        echo '</td>';
+                    <td>
+                        <a href="javascript:showBlock('publications',<?= $publication->id; ?>)">
+                            <?= htmlspecialchars($publication->name); ?>
+                        </a>
+                    </td>
+                    <td>
+                        <?php
+                        if ($selectedAuthor)
+                            $query = "SELECT authors.* FROM authorpublications
+                LEFT OUTER JOIN authors ON authors.id = authorpublications.authorid
+                WHERE authorpublications.publicationid = $publication->id AND
+                authors.id <> $selectedAuthor
+                ORDER BY authors.name";
+                        else
+                            $query = "SELECT authors.* FROM authorpublications
+                LEFT OUTER JOIN authors ON authors.id = authorpublications.authorid
+                WHERE authorpublications.publicationid = $publication->id
+                ORDER BY authors.name";
+                        $coauthors = SelectObjects($query);
+                        $coauthorsStr = '';
+                        foreach ($coauthors as $coauthor) {
+                            if (strlen($coauthorsStr))
+                                $coauthorsStr .= ', ';
+                            $coauthorsStr .= "<a href=\"javascript:reloadWithParam('author',$coauthor->id)\">" .
+                                htmlspecialchars($coauthor->name) . '</a>';
+                        }
+                        echo $coauthorsStr;
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                        if ($publication->type == 1) {
+                            $journal = Select('journals', $publication->journalid);
+                            echo htmlspecialchars($journal->name);
+                            if (strlen($publication->journalnumber))
+                                echo htmlspecialchars(". – $publication->journalnumber");
+                        }
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                        $publisher = Select('publishers', $publication->type == 1 ? $journal->publisherid :
+                            $publication->publisherid);
+                        if (strlen($publisher->city))
+                            echo htmlspecialchars("$publisher->city: ");
+                        echo htmlspecialchars($publisher->name);
+                        ?>
+                    </td>
 
-        echo '<td>';
-        echo "<a href=\"javascript:showBlock('participations',$participation->id)\">";
-        echo htmlspecialchars($participation->name);
-        echo '</a>';
-        echo '</td>';
+                    <td><?= $publication->year; ?></td>
 
-        if (!$selectedAuthor)
-        {
-            echo '<td>';
-            echo "<a href=\"javascript:reloadWithParam('author',$participation->authorid)\">";
-            echo htmlspecialchars($participation->authorname);
-            echo '</a>';
-            echo '</td>';
-        }
+                    <td>
+                        <?php
+                        echo $publication->type == 1 ? "$publication->journalpagestart-$publication->journalpageend" :
+                            $publication->numpages;
+                        ?>
+                    </td>
 
-        echo '<td>';
-        echo htmlspecialchars($participation->place);
-        echo '</td>';
-        
-        echo '<td>';
-        echo htmlspecialchars($participation->date);
-        echo '</td>';
-        
-        echo "<td>$participation->year</td>";
-        echo "<td><a href=\"javascript:del('participations',$participation->id)\">X</a></td>";
-        echo '</tr>';
+                    <td>
+                        <a href="javascript:del('publications',<?= $publication->id; ?>)"><span
+                                class="glyphicon glyphicon-remove"></span></a>
+                    </td>
+
+                </tr>
+
+            <?php
+            }
+            ?>
+
+        </table>
+    <?php
+    } else {
+        ?>
+
+        <table class="table table-striped">
+            <tr>
+                <th>№</th>
+                <th>Название</th>
+                <?= $selectedAuthor ? '' : '<th>Участник</th>'; ?>
+                <th>Место</th>
+                <th>Дата</th>
+                <th>Год</th>
+                <th>Удалить</th>
+            </tr>
+            <?php
+            $cntr = 1;
+
+            if ($selectedAuthor)
+                $query = "SELECT participations.id,
+        scevents.name, scevents.date, scevents.place, scevents.year
+        FROM participations
+        LEFT OUTER JOIN scevents ON scevents.id = participations.sceventid
+        WHERE participations.authorid = $selectedAuthor
+        ORDER BY scevents.year DESC, scevents.name";
+            else
+                $query = 'SELECT participations.id, participations.authorid, authors.name AS authorname,
+        scevents.name, scevents.date, scevents.place, scevents.year
+        FROM participations
+        LEFT OUTER JOIN scevents ON scevents.id = participations.sceventid
+        LEFT OUTER JOIN authors ON authors.id = participations.authorid
+        ORDER BY scevents.year DESC, scevents.name';
+            $participations = SelectObjects($query);
+            foreach ($participations as $participation) {
+                ?>
+
+                <tr>
+                    <td>
+                        <?= $cntr++; ?>
+                    </td>
+                    <td>
+                        <a href="javascript:showBlock('participations',<?= $participation->id; ?>)">
+                            <?= htmlspecialchars($participation->name); ?>
+                        </a>
+                    </td>
+                    <?php
+                    if (!$selectedAuthor) {
+                        ?>
+
+                        <td>
+                            <a href="javascript:reloadWithParam('author',<?= $participation->authorid; ?>)">
+                                <?= htmlspecialchars($participation->authorname); ?>
+                            </a>
+                        </td>
+                    <?php
+                    }
+                    ?>
+                    <td>
+                        <?= htmlspecialchars($participation->place); ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($participation->date); ?>
+                    </td>
+
+                    <td>
+                        <?= $participation->year; ?>
+                    </td>
+
+                    <td>
+                        <a href="javascript:del('participations',<?= $participation->id; ?>)"><span
+                                class="glyphicon glyphicon-remove"></span></a>
+                    </td>
+
+                </tr>
+
+            <?php
+            }
+            ?>
+
+        </table>
+    <?php
     }
-    echo '</table>';
-}
+    ?>
+    </div>
+    </div>
 
-
-
-
+<?php
 ShowFooter();
-
 ?>
