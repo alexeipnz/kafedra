@@ -17,11 +17,11 @@ if (!strlen($email))
 }
 
 $uid = SelectId('authors', 'email:s', array($email));
-//if (!$uid)
-//{
-//    echo 'Указанный email не найден';
-//    exit;
-//}
+if (!$uid)
+{
+    echo 'Указанный email не найден';
+    exit;
+}
 
 
 $pwd = GenerateRandomString(10);
@@ -50,11 +50,11 @@ $mail->isHTML();
 $mail->Body = $body;
 $mailIsSent = $mail->send();
 ////////////////////////////////////////////////////////////////////////////////
-//if (!$mailIsSent)
-//{
-//    echo 'Error: could not send email';
-//    exit;
-//}
+if (!$mailIsSent)
+{
+    echo 'Error: could not send email';
+    exit;
+}
 
 
 if (!Upsert('authors', $uid, array('pwd:s'), array(sha1($pwd))))

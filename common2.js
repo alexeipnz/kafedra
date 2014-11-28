@@ -157,7 +157,7 @@ function showBlock(table, id)
         {
             if (completed)
             {
-                EL(parent + table).innerHTML = resp + ' | <a href="javascript:hideBlock(\'' + parent + table + '\')">Отменить</a>';
+                EL(parent + table).innerHTML = resp + ' <a class="btn btn-default" href="javascript:hideBlock(\'' + parent + table + '\')">Отменить</a></div>';
                 EL(parent + table).style.display = 'inline-block';
                 
                 

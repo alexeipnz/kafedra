@@ -3,52 +3,39 @@
 include 'common.php';
 
 
-
-if (!isset($_GET['table']))
-{
+if (!isset($_GET['table'])) {
     echo 'Error: no data (table)';
     exit;
 }
 $table = $_GET['table'];
-if (!array_key_exists($table, $fieldInfo))
-{
+if (!array_key_exists($table, $fieldInfo)) {
     echo 'Error: incorrect data (table)';
     exit;
 }
 
 
-
-if (!isset($_GET['parent']))
-{
+if (!isset($_GET['parent'])) {
     echo 'Error: no data (parent)';
     exit;
 }
 $parent = $_GET['parent'];
-if (strlen($parent) && !array_key_exists($parent, $fieldInfo))
-{
+if (strlen($parent) && !array_key_exists($parent, $fieldInfo)) {
     echo 'Error: incorrect data (parent)';
     exit;
 }
 
 
-
-
-if (!isset($_GET['id']))
-{
+if (!isset($_GET['id'])) {
     echo "Error: no data ($table.id)";
     exit;
 }
 $id = (int)$_GET['id'];
 
 
-
-if ($id)
-{
+if ($id) {
     $obj = Select($table, $id);
     $btnName = 'Сохранить';
-}
-else
-{
+} else {
     $obj = new stdClass();
     $obj->id = $id;
     foreach ($fieldInfo[$table]['fields'] as $colName => $colInfo)
@@ -60,17 +47,28 @@ else
 $name = $fieldInfo[$table]['name'];
 echo "<b>$name</b><br />";
 
-switch ($table)
-{
-    case 'authors': ShowAuthorForm($table, $obj); break;
-    case 'journals': ShowJournalForm($table, $obj); break;
-    case 'publications': ShowPublicationForm($table, $obj); break;
-    case 'scevents': ShowScEventForm($table, $obj); break;
-    case 'publishers': ShowPublisherForm($table, $obj, $parent); break;
-    case 'participations': ShowParticipationForm($table, $obj); break;
+switch ($table) {
+    case 'authors':
+        ShowAuthorForm($table, $obj);
+        break;
+    case 'journals':
+        ShowJournalForm($table, $obj);
+        break;
+    case 'publications':
+        ShowPublicationForm($table, $obj);
+        break;
+    case 'scevents':
+        ShowScEventForm($table, $obj);
+        break;
+    case 'publishers':
+        ShowPublisherForm($table, $obj, $parent);
+        break;
+    case 'participations':
+        ShowParticipationForm($table, $obj);
+        break;
 }
 
-echo "<a href=\"javascript:upsert('$table','$parent',$id)\">$btnName</a>";
+echo "<div style='clear: both;'>&nbsp;</div><div class='col-md-12 col-sm-12'><a class='btn btn-default' href=\"javascript:upsert('$table','$parent',$id)\">$btnName</a>";
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,29 +76,36 @@ echo "<a href=\"javascript:upsert('$table','$parent',$id)\">$btnName</a>";
 
 function ShowAuthorForm($table, $obj)
 {
-    echo "<form class='form-horizontal' role='form'>";
+    ?>
+    <form class='form-horizontal'>
+        <div class="group col-sm-12">
+            <div class='form-group'>
+                <label for='authorsname' class='control-label col-sm-4'>Фамилия И. О.:</label>
 
-    echo "<div class='form-group'>";
-    echo "<label for='authorsname' class='control-label col-sm-4'>Фамилия И. О.:</label>";
-    echo GetHtmlElement($table, 'name', '', '', '', $obj);
-    echo '<br />';
-    echo "</div>";
+                <div class="col-sm-8">
+                    <?= GetHtmlElement($table, 'name', '', '', '', $obj); ?>
+                </div>
+            </div>
 
-    echo "<div class='form-group'>";
-    echo "<label for='authorsisforeign' class='control-label col-sm-4'>Иностранный:</label>";
-//    echo 'Иностранный: ';
-    echo GetHtmlElement($table, 'isforeign', '', '', '', $obj);
-    echo '<br />';
-    echo "</div>";
+            <div class='form-group'>
+                <div class="checkbox">
+                    <label for='authorsisforeign' class='col-sm-4 control-label'>Иностранный:
 
-    echo "<div class='form-group'>";
-    echo "<label for='authorsstudentgroup' class='control-label col-sm-4'>Студент группы </label>";
-//    echo 'Студент группы ';
-    echo GetHtmlElement($table, 'studentgroup', '', '', '', $obj);
-    echo '<br />';
-    echo "</div>";
+                        <?= GetHtmlElement($table, 'isforeign', '', '', '', $obj); ?>
+                    </label>
+                </div>
+            </div>
 
-    echo "</form>";
+            <div class='form-group'>
+                <label for='authorsstudentgroup' class='control-label col-sm-4'>Студент группы </label>
+
+                <div class="col-sm-8">
+                    <?= GetHtmlElement($table, 'studentgroup', '', '', '', $obj); ?>
+                </div>
+            </div>
+        </div>
+    </form>
+<?php
 }
 
 
@@ -109,86 +114,151 @@ function ShowJournalForm($table, $obj)
     $publishers = GetOptionsString2('publishers', $obj->publisherid);
     $types = GetOptionsString2('journaltypes', $obj->type);
     $scevents = GetOptionsString2('scevents', $obj->sceventid, true);
+    ?>
+    <form class='form-horizontal'>
 
-    echo "<form class='form-horizontal>";
+        <div class='form-group'>
+            <label for='journalsname' class='control-label col-sm-3'>Название: </label>
 
-    echo "<div class='form-group'>";
-    echo "<label for='journalsname' class='control-label col-sm-4'>Название: </label>";
-//    echo 'Название: ';
-    echo GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj);
-    echo "</div>";
-    echo '<br />';
+            <div class="col-sm-9">
+                <?= GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj); ?>
+            </div>
+        </div>
 
-    echo "<div class='form-group'>";
-    echo "<label for='journalsname' class='control-label col-sm-4'>Тип: </label>";
-//    echo 'Тип: ';
-    echo GetHtmlElement($table, 'type', '', $types);
-    echo "</div>";
-    echo '<br />';
+        <div class='form-group'>
+            <label for='journalstype' class='control-label col-sm-3'>Тип: </label>
 
-    echo "<div class='form-group'>";
-    echo "<label for='journalsname' class='control-label col-sm-4'>Импакт-фактор: </label>";
-    echo 'Импакт-фактор: ';
-    echo GetHtmlElement($table, 'impfactor', 'class="publyear"', '', '', $obj);
-    echo '<div class="space"></div>РИНЦ: ';
-    echo GetHtmlElement($table, 'inrinc', '', '', '', $obj);
-    echo '<div class="space"></div>Рецензируемый: ';
-    echo GetHtmlElement($table, 'reviewed', '', '', '', $obj);
-    echo '<div class="space"></div>ВАК: ';
-    echo GetHtmlElement($table, 'invak', '', '', '', $obj);
-    echo "</div>";
-    echo '<br />';
+            <div class="col-sm-9 col-xs-12">
+                <?= GetHtmlElement($table, 'type', '', $types); ?>
+            </div>
+        </div>
 
-    echo "<div class='form-group'>";
-    echo 'Scopus: ';
-    echo GetHtmlElement($table, 'inscopus', '', '', '', $obj);
-    echo '<div class="space"></div>Web of Science: ';
-    echo GetHtmlElement($table, 'inwos', '', '', '', $obj);
-    echo '<div class="space"></div>Другие иностранные индексы: ';
-    echo GetHtmlElement($table, 'inforeignindex', '', '', '', $obj);
-    echo "</div>";
-    echo '<br />';
+        <div class='form-group'>
 
-    echo '<div class="group">';
-    echo 'Издательство: ';
-    echo GetHtmlElement($table, 'publisherid', '', $publishers);
-    echo ' <a href="javascript:store(\'publisherparent\',\'journals\');showBlock(\'publishers\')">Новое</a>';
-    echo ' | <a href="javascript:store(\'publisherparent\',\'journals\');showBlock(\'publishers\',getSel(\'journalspublisherid\'))">Редактировать</a>';
-    echo ' | <a href="javascript:del(\'publishers\',getSel(\'journalspublisherid\'))">Удалить</a><br />';
-    echo '<div class="inlinedata" id="journalspublishers"></div>';
-    echo '</div><br />';
+            <div class='checkbox'>
+                <label for='journalsimpfactor' class='control-label col-sm-3'>Импакт-фактор: </label>
 
-    echo '<div class="group">';
-    echo 'Научное мероприятие: ';
-    echo GetHtmlElement($table, 'sceventid', '', $scevents);
-    echo ' <a href="javascript:showBlock(\'scevents\')">Новое</a>';
-    echo ' | <a href="javascript:showBlock(\'scevents\',getSel(\'journalssceventid\'))">Редактировать</a>';
-    echo ' | <a href="javascript:del(\'scevents\',getSel(\'journalssceventid\'))">Удалить</a><br />';
-    echo '<div class="inlinedata" id="scevents"></div>';
-    echo '</div><br />';
+                <div class="col-sm-9">
+                    <?= GetHtmlElement($table, 'impfactor', 'class="publyear"', '', '', $obj); ?>
+                </div>
+            </div>
 
-    echo "</form>";
+            <div class='checkbox'>
+                <div class="space"></div>
+                <label for="journalsinrinc" class="col-sm-3 control-label">РИНЦ:
+                    <?= GetHtmlElement($table, 'inrinc', '', '', '', $obj); ?>
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <div class="space"></div>
+                <label for="journalsreviewed" class="col-sm-3 control-label">Рецензируемый:
+                    <?= GetHtmlElement($table, 'reviewed', '', '', '', $obj); ?>
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <div class="space"></div>
+                <label for="journalsinvak" class="col-sm-3 control-label">ВАК:
+                    <?= GetHtmlElement($table, 'invak', '', '', '', $obj); ?>
+                </label>
+            </div>
+        </div>
+
+        <div class='form-group'>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="journalsinscopus" class="col-sm-3 control-label">Scopus:
+                        <?= GetHtmlElement($table, 'inscopus', '', '', '', $obj); ?>
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <div class="space"></div>
+                    <label for="journalsinwos" class="col-sm-3 control-label"> Web of Science:
+                        <?= GetHtmlElement($table, 'inwos', '', '', '', $obj); ?>
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <div class="space"></div>
+                    <label for="journalsinforeignindex" class="col-sm-3 control-label">Другие иностранные индексы:
+                        <?= GetHtmlElement($table, 'inforeignindex', '', '', '', $obj); ?>
+                    </label>
+                </div>
+            </div>
+
+            <div class="group col-sm-9">
+
+
+                <div class='form-group'>
+                    <label for='journalspublisherid' class='control-label col-sm-3'>Издательство:</label>
+
+                    <div class="col-sm-9">
+                        <?= GetHtmlElement($table, 'publisherid', '', $publishers); ?>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-default"
+                       href="javascript:store('publisherparent','journals');showBlock('publishers')">Новое</a>
+                    <a class="btn btn-default"
+                       href="javascript:store('publisherparent','journals');showBlock('publishers',getSel('journalspublisherid'))">Редактировать</a>
+                    <a class="btn btn-default"
+                       href="javascript:del('publishers',getSel('journalspublisherid'))">Удалить</a>
+                </div>
+
+                <div class="form-group">
+                    <div class="inlinedata" id="journalspublishers"></div>
+                </div>
+            </div>
+
+            <div class="group col-sm-9">
+
+
+                <div class='form-group'>
+                    <label for='journalssceventid' class='control-label col-sm-3'>Научное мероприятие:</label>
+
+                    <div class="col-sm-9">
+                        <?= GetHtmlElement($table, 'sceventid', '', $scevents); ?>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a class="btn btn-default" href="javascript:showBlock('scevents')">Новое</a>
+                    <a class="btn btn-default" href="javascript:showBlock('scevents',getSel('journalssceventid'))">Редактировать</a>
+                    <a class="btn btn-default"
+                       href="javascript:del('scevents',getSel('journalssceventid'))">Удалить</a>
+                </div>
+
+                <div style='clear: both;'>&nbsp;</div>
+
+                <div class='btn-group'>
+                    <div class="inlinedata" id="scevents"></div>
+                </div>
+
+            </div>
+
+
+    </form>
+<?php
 }
-
 
 
 function ShowPublicationForm($table, $obj)
 {
     global $userid;
-    
-    if ($obj->id)
-    {
+
+    if ($obj->id) {
         $authorids = SelectObjects("SELECT authorid FROM authorpublications WHERE publicationid = $obj->id");
         $authorsRange = '';
-        foreach ($authorids as $authorid)
-        {
+        foreach ($authorids as $authorid) {
             if (strlen($authorsRange))
                 $authorsRange .= ',';
             $authorsRange .= $authorid->authorid;
         }
-    }
-    else
-    {
+    } else {
         $authorsRange = $userid;
     }
 
@@ -204,99 +274,220 @@ function ShowPublicationForm($table, $obj)
     $authors_other = SelectObjects("SELECT * FROM authors WHERE id NOT IN ($authorsRange) ORDER BY name");
     $authors_publ = GetOptionsString3($authors_publ);
     $authors_other = GetOptionsString3($authors_other);
+    ?>
+    <form class="form-horizontal">
+
+    <div class="form-group">
+        <label for="publicationsname" class="control-label col-sm-4">Название:</label>
+
+        <div class="col-sm-8">
+            <?= GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj); ?>
+        </div>
+    </div>
 
 
+    <div class="group highlight col-sm-10">
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Авторы: </label>
+
+            <div class="col-sm-8">
+                <?php
+                $objAuth = new stdClass();
+                $objAuth->publicationid = $obj->id;
+                echo GetHtmlElement('authorpublications', 'publicationid', '', '', '', $objAuth);
+                ?>
+            </div>
+        </div>
 
 
+        <div class="group col-sm-4">
+            <div class="form-group">
+                <?= GetHtmlElement('authorpublications', 'authorid', 'size="5" class="authorlist"', $authors_publ); ?>
+            </div>
 
-    echo 'Название: ';
-    echo GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj);
-    echo '<br />';
+            <div class="btn-group-vertical">
+                <a class="btn btn-default"
+                   href="javascript:store('authlist','authorpublicationsauthorid');showBlock('authors',getSel(store.authlist))">Редактировать</a>
+                <a class="btn btn-default" href="javascript:showBlock('authors')">Новый</a>
+            </div>
+        </div>
 
-    echo '<div class="group highlight">';
-    echo 'Авторы:<br />';
-    $objAuth = new stdClass();
-    $objAuth->publicationid = $obj->id;
-    echo GetHtmlElement('authorpublications', 'publicationid', '', '', '', $objAuth);
-    
-    
-    echo '<div class="group">';
-    echo GetHtmlElement('authorpublications', 'authorid', 'size="5" class="authorlist"', $authors_publ);
-    echo '<br /><a href="javascript:store(\'authlist\',\'authorpublicationsauthorid\');showBlock(\'authors\',getSel(store.authlist))">Редактировать</a>';
-    echo '<br /><a href="javascript:showBlock(\'authors\')">Новый</a>';
-    echo '</div>';
-    echo '<div class="group aligntop">';
-    echo '<br /><a href="javascript:moveOption(\'authall\',\'authorpublicationsauthorid\')">&lt;&lt;====</a>';
-    echo '<br /><a href="javascript:moveOption(\'authorpublicationsauthorid\',\'authall\')">====&gt;&gt;</a>';
-    echo '</div>';
-    echo '<div class="group">';
-    echo "<select size=\"5\" class=\"authorlist\" id=\"authall\">$authors_other</select>";
-    echo '<br /><a href="javascript:store(\'authlist\',\'authall\');showBlock(\'authors\',getSel(store.authlist))">Редактировать</a>';
-    echo '<br /><a href="javascript:del(\'authors\',getSel(\'authall\'))">Удалить</a><br />';
-    echo '</div>';
-    echo '<br />';
-    
-    
-    echo '<div class="inlinedata" id="authors"></div>';
-    echo '</div>'; // group highlight
-    echo '<br />';
+        <div class="group aligntop col-sm-2">
+            <div class="btn-group-vertical">
+                <a class="btn btn-default" href="javascript:moveOption('authall','authorpublicationsauthorid')"><i
+                        class="glyphicon glyphicon-chevron-left"></i></a>
+                <a class="btn btn-default" href="javascript:moveOption('authorpublicationsauthorid','authall')"><i
+                        class="glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+        </div>
 
-    echo 'Год издания: ';
-    echo GetHtmlElement($table, 'year', 'class="publyear"', '', '', $obj);
-    echo '<div class="space"></div>Язык: ';
-    echo GetHtmlElement($table, 'lang', '', $langs);
-    echo '<div class="space"></div>URL с выходными данными: ';
-    echo GetHtmlElement($table, 'url', '', '', '', $obj);
-    echo '<br />';
+        <div class="group col-sm-4">
+            <div class="form-group">
+                <select class="form-control" size="5" class="authorlist" id="authall"><?= $authors_other ?></select>
+            </div>
+            <div class="btn-group-vertical">
+                <a class="btn btn-default"
+                   href="javascript:store('authlist','authall');showBlock('authors',getSel(store.authlist))">Редактировать</a>
+                <a class="btn btn-default" href="javascript:del('authors',getSel('authall'))">Удалить</a>
+            </div>
+        </div>
 
-    echo 'Тип: ';
-    echo GetHtmlElement($table, 'type', 'onchange="onPublTypeChange()"', $types);
-    echo '<br />';
 
-    echo '<div id="journaldata">';
+        <div class="form-group">
+            <div class="inlinedata" id="authors"></div>
+        </div>
+    </div>
+    <!--         group highlight-->
 
-    echo '<div class="group">';
-    echo 'Журнал (сборник): ';
-    echo GetHtmlElement($table, 'journalid', '', $journals);
-    echo ' <a href="javascript:showBlock(\'journals\')">Новый</a>';
-    echo ' | <a href="javascript:showBlock(\'journals\',getSel(\'publicationsjournalid\'))">Редактировать</a>';
-    echo ' | <a href="javascript:del(\'journals\',getSel(\'publicationsjournalid\'))">Удалить</a><br />';
-    echo '<div class="inlinedata" id="journals"></div>';
-    echo '</div>'; // group
-    echo '<br />';
+    <div style='clear: both;'>&nbsp;</div>
+    <div class="form-group">
 
-    echo 'Номер журнала: ';
-    echo GetHtmlElement($table, 'journalnumber', '', '', '', $obj);
-    echo ' Начальная страница: ';
-    echo GetHtmlElement($table, 'journalpagestart', 'class="publyear"', '', '', $obj);
-    echo ' Конечная страница: ';
-    echo GetHtmlElement($table, 'journalpageend', 'class="publyear"', '', '', $obj);
-    echo '<br />';
+        <label for="publicationsyear" class="control-label col-sm-4">Год издания:</label>
 
-    echo '</div>'; // journaldata
-    echo '<div id="bookdata">';
+        <div class="col-sm-8">
+            <?= GetHtmlElement($table, 'year', 'class="publyear"', '', '', $obj); ?>
+        </div>
+    </div>
 
-    echo '<div class="group">';
-    echo 'Издательство: ';
-    echo GetHtmlElement($table, 'publisherid', '', $publishers);
-    echo ' <a href="javascript:store(\'publisherparent\',\'publications\');showBlock(\'publishers\')">Новое</a>';
-    echo ' | <a href="javascript:store(\'publisherparent\',\'publications\');showBlock(\'publishers\',getSel(\'publicationspublisherid\'))">Редактировать</a>';
-    echo ' | <a href="javascript:del(\'publishers\',getSel(\'publicationspublisherid\'))">Удалить</a><br />';
-    echo '<div class="inlinedata" id="publicationspublishers"></div>';
-    echo '</div>'; // group
-    echo '<br />';
+    <div class="form-group">
 
-    echo 'Гриф: ';
-    echo GetHtmlElement($table, 'grif', '', $orders);
-    echo ' Число страниц: ';
-    echo GetHtmlElement($table, 'numpages', 'class="publyear"', '', '', $obj);
-    echo ' Тираж: ';
-    echo GetHtmlElement($table, 'tirazh', 'class="publyear"', '', '', $obj);
-    echo '<br />';
-    
-    echo '</div>'; // bookdata
+        <div class="space"></div>
+        <label for="publicationslang" class="control-label col-sm-4">Язык:</label>
+
+        <div class="col-sm-7">
+            <?= GetHtmlElement($table, 'lang', '', $langs); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="space"></div>
+        <label for="publicationsurl" class="control-label col-sm-4">URL с выходными данными:</label>
+
+        <div class="col-sm-8">
+            <?= GetHtmlElement($table, 'url', '', '', '', $obj); ?>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="publicationstype" class="control-label col-sm-4">Тип:</label>
+
+        <div class="col-sm-7">
+            <?= GetHtmlElement($table, 'type', 'onchange="onPublTypeChange()"', $types); ?>
+        </div>
+    </div>
+
+
+    <div id="journaldata">
+
+        <div class="group">
+
+
+            <div class="form-group">
+                <label for="publicationsjournalid" class="control-label col-sm-4">Журнал (сборник):</label>
+
+                <div class="col-sm-7">
+                    <?= GetHtmlElement($table, 'journalid', '', $journals); ?>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a class="btn btn-default" href="javascript:showBlock('journals')">Новый</a>
+                <a class="btn btn-default" href="javascript:showBlock('journals',getSel('publicationsjournalid'))">Редактировать</a>
+                <a class="btn btn-default"
+                   href="javascript:del('journals',getSel('publicationsjournalid'))">Удалить</a>
+
+
+            </div>
+            <div class="form-group">
+                <div class="inlinedata" id="journals"></div>
+            </div>
+
+        </div>
+        <!--         group-->
+
+
+        <div class="form-group">
+            <label for="publicationsjournalnumber" class="control-label col-sm-4">Номер журнала:</label>
+
+            <div class="col-sm-8">
+                <?= GetHtmlElement($table, 'journalnumber', '', '', '', $obj); ?>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="publicationsjournalpagestart" class="control-label col-sm-4">Начальная страница:</label>
+
+            <div class="col-sm-8">
+                <?= GetHtmlElement($table, 'journalpagestart', 'class="publyear"', '', '', $obj) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="publicationsjournalpageend" class="control-label col-sm-4">Конечная страница:</label>
+
+            <div class="col-sm-8">
+                <?= GetHtmlElement($table, 'journalpageend', 'class="publyear"', '', '', $obj) ?>
+            </div>
+        </div>
+
+
+    </div>
+    <!--        journaldata-->
+
+    <div id="bookdata">
+
+        <div class="group">
+
+
+            <div class="form-group">
+                <label for="journalspublisherid" class="control-label ">Издательство:</label>
+                <div class="col-sm-7">
+
+
+                    <?= GetHtmlElement($table, 'publisherid', '', $publishers) ?>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a class="btn btn-default"
+                   href="javascript:store('publisherparent','publications');showBlock('publishers')">Новое</a>
+                <a class="btn btn-default"
+                   href="javascript:store('publisherparent','publications');showBlock('publishers',getSel('publicationspublisherid'))">Редактировать</a>
+                <a class="btn btn-default"
+                   href="javascript:del('publishers',getSel('publicationspublisherid'))">Удалить</a>
+            </div>
+
+            <div class="form-group">
+                <div class="inlinedata" id="publicationspublishers"></div>
+            </div>
+
+        </div>
+        <!--                 group-->
+
+
+        <div class="form-group">
+            Гриф:
+            <?= GetHtmlElement($table, 'grif', '', $orders) ?>
+        </div>
+        <div class="form-group">
+            Число страниц:
+            <?= GetHtmlElement($table, 'numpages', 'class="publyear"', '', '', $obj) ?>
+        </div>
+        <div class="form-group">
+            Тираж:
+            <?= GetHtmlElement($table, 'tirazh', 'class="publyear"', '', '', $obj) ?>
+        </div>
+
+
+    </div>
+    <!--        // bookdata-->
+
+    </form>
+<?php
 }
-
 
 
 function ShowScEventForm($table, $obj)
@@ -304,54 +495,99 @@ function ShowScEventForm($table, $obj)
     $types = GetOptionsString2('evtypes', $obj->type, true);
     $levels = GetOptionsString2('evlevels', $obj->level, true);
     $statuses = GetOptionsString2('evstatuses', $obj->status, true);
+    ?>
+    <div class="group">
+        <div class="form-group">
+            <label for="sceventsname" class="control-label col-sm-3">Название: </label>
 
+            <div class="col-sm-7">
+                <?= GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj); ?>
+            </div>
+        </div>
 
-    echo 'Название: ';
-    echo GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj);
-    echo '<br />';
+        <div class="form-group">
+            <label for="sceventsplace" class="control-label col-sm-3">Место: </label>
 
-    echo 'Место: ';
-    echo GetHtmlElement($table, 'place', '', '', '', $obj);
-    echo '<br />';
+            <div class="col-sm-7">
+                <?= GetHtmlElement($table, 'place', '', '', '', $obj); ?>
+            </div>
+        </div>
 
-    echo 'Дата: ';
-    echo GetHtmlElement($table, 'date', '', '', '', $obj);
-    echo ' Год: ';
-    echo GetHtmlElement($table, 'year', 'class="publyear"', '', '', $obj);
-    echo '<br />';
+        <div class="form-group">
+            <label for="sceventsdate" class="control-label col-sm-3">Дата: </label>
 
-    echo 'Уровень: ';
-    echo GetHtmlElement($table, 'level', '', $levels);
-    echo '<br />';
+            <div class="col-sm-7">
+                <?= GetHtmlElement($table, 'date', '', '', '', $obj); ?>
+            </div>
+        </div>
 
-    echo 'Тип: ';
-    echo GetHtmlElement($table, 'type', '', $types);
-    echo '<br />';
+        <div class="form-group">
+            <label for="sceventsyear" class="control-label col-sm-3">Год: </label>
 
-    echo 'Статус: ';
-    echo GetHtmlElement($table, 'status', '', $statuses);
-    echo '<br />';
+            <div class="col-sm-7">
+                <?= GetHtmlElement($table, 'year', 'class="publyear"', '', '', $obj); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sceventslevel" class="control-label col-sm-3">Уровень: </label>
+
+            <div class="col-sm-7">
+                <?= GetHtmlElement($table, 'level', '', $levels); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sceventstype" class="control-label col-sm-3">Тип: </label>
+
+            <div class="col-sm-7">
+                <?= GetHtmlElement($table, 'type', '', $types); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sceventsstatus" class="control-label col-sm-3">Статус: </label>
+
+            <div class="col-sm-7">
+                <?= GetHtmlElement($table, 'status', '', $statuses); ?>
+            </div>
+        </div>
+    </div>
+<?php
 }
-
-
 
 
 function ShowPublisherForm($table, $obj, $parent)
 {
     $types = GetOptionsString2('publishertypes', $obj->type);
 
-    
-    echo 'Название: ';
-    echo GetHtmlElement($table, 'name', '', '', $parent, $obj);
-    echo '<br />';
-    
-    echo 'Город: ';
-    echo GetHtmlElement($table, 'city', '', '', $parent, $obj);
-    echo '<br />';
-    
-    echo 'Тип: ';
-    echo GetHtmlElement($table, 'type', '', $types, $parent);
-    echo '<br />';
+    ?>
+    <div class="group">
+        <div class="form-group">
+            <label for="journalspublishersname" class="control-label col-sm-3">Название: </label>
+
+            <div class="col-sm-8">
+                <?= GetHtmlElement($table, 'name', '', '', $parent, $obj); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="journalspublisherscity" class="control-label col-sm-3">Город: </label>
+
+            <div class="col-sm-8">
+                <?= GetHtmlElement($table, 'city', '', '', $parent, $obj); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="journalspublishersname" class="control-label col-sm-3">Тип: </label>
+
+            <div class="col-sm-8">
+                <?= GetHtmlElement($table, 'type', '', $types, $parent); ?>
+            </div>
+        </div>
+    </div>
+<?php
 }
 
 
@@ -359,29 +595,51 @@ function ShowParticipationForm($table, $obj)
 {
     $authors = GetOptionsString2('authors', $obj->authorid);
     $scevents = GetOptionsString2('scevents', $obj->sceventid);
-    
-    
-    
-    echo '<div class="group">';
-    echo 'Участник: ';
-    echo GetHtmlElement($table, 'authorid', '', $authors);
-    echo ' <a href="javascript:showBlock(\'authors\')">Новый</a>';
-    echo ' | <a href="javascript:showBlock(\'authors\',getSel(\'participationsauthorid\'))">Редактировать</a>';
-    echo ' | <a href="javascript:del(\'authors\',getSel(\'participationsauthorid\'))">Удалить</a><br />';
-    echo '<div class="inlinedata" id="authors"></div>';
-    echo '</div><br />';
+    ?>
 
-    
-    echo '<div class="group">';
-    echo 'Мероприятие: ';
-    echo GetHtmlElement($table, 'sceventid', '', $scevents);
-    echo ' <a href="javascript:showBlock(\'scevents\')">Новое</a>';
-    echo ' | <a href="javascript:showBlock(\'scevents\',getSel(\'participationssceventid\'))">Редактировать</a>';
-    echo ' | <a href="javascript:del(\'scevents\',getSel(\'participationssceventid\'))">Удалить</a><br />';
-    echo '<div class="inlinedata" id="scevents"></div>';
-    echo '</div><br />';
+    <div class="group">
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">Участник:</label>
+
+        <div class="col-sm-8">
+            <?= GetHtmlElement($table, 'authorid', '', $authors); ?>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <a class="btn btn-default" href="javascript:showBlock('authors')">Новый</a>';
+        <a class="btn btn-default"
+           href="javascript:showBlock('authors',getSel('participationsauthorid'))">Редактировать</a>
+        <a class="btn btn-default" href="javascript:del('authors',getSel('participationsauthorid'))">Удалить</a>
+    </div>
+
+    <div class="form-group">
+        <div class="inlinedata" id="authors"></div>
+    </div>
+
+    <div class="group">
+        <div class="form-group">
+            <label class="control-label col-sm-4">Мероприятие: </label>
+
+            <div class="col-sm-8">
+                <?= GetHtmlElement($table, 'sceventid', '', $scevents); ?>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a class="btn btn-default" href="javascript:showBlock('scevents')">Новое</a>
+            <a class="btn btn-default" href="javascript:showBlock('scevents',getSel('participationssceventid'))">Редактировать</a>
+            <a class="btn btn-default" href="javascript:del('scevents',getSel('participationssceventid'))">Удалить</a>
+        </div>
+
+        <div class="form-group">
+
+            <div class="inlinedata" id="scevents"></div>
+        </div>
+    </div>
+<?php
 }
-
 
 
 ?>
