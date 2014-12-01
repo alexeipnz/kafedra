@@ -68,7 +68,7 @@ switch ($table) {
         break;
 }
 
-echo "<div style='clear: both;'>&nbsp;</div><div class='col-md-12 col-sm-12'><a class='btn btn-default' href=\"javascript:upsert('$table','$parent',$id)\">$btnName</a>";
+echo "<div style='clear: both;'>&nbsp;</div><div class=' col-sm-12 col-md-12 col-lg-12'><a class='btn btn-default' href=\"javascript:upsert('$table','$parent',$id)\">$btnName</a>";
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,18 +78,18 @@ function ShowAuthorForm($table, $obj)
 {
     ?>
     <form class='form-horizontal'>
-        <div class="group col-sm-12">
+        <div class="group col-sm-12 col-md-12 col-lg-12">
             <div class='form-group'>
-                <label for='authorsname' class='control-label col-sm-4'>Фамилия И. О.:</label>
+                <label for='authorsname' class='control-label col-sm-4 col-md-4 col-lg-4'>Фамилия И. О.:</label>
 
-                <div class="col-sm-8">
+                <div class="col-sm-7 col-md-7 col-lg-7">
                     <?= GetHtmlElement($table, 'name', '', '', '', $obj); ?>
                 </div>
             </div>
 
             <div class='form-group'>
                 <div class="checkbox">
-                    <label for='authorsisforeign' class='col-sm-4 control-label'>Иностранный:
+                    <label for='authorsisforeign' class='col-sm-4 col-md-4 col-lg-4 control-label'>Иностранный:
 
                         <?= GetHtmlElement($table, 'isforeign', '', '', '', $obj); ?>
                     </label>
@@ -97,9 +97,9 @@ function ShowAuthorForm($table, $obj)
             </div>
 
             <div class='form-group'>
-                <label for='authorsstudentgroup' class='control-label col-sm-4'>Студент группы </label>
+                <label for='authorsstudentgroup' class='control-label col-sm-4 col-md-4 col-lg-4'>Студент группы </label>
 
-                <div class="col-sm-8">
+                <div class="col-sm-8 col-md-8 col-lg-8">
                     <?= GetHtmlElement($table, 'studentgroup', '', '', '', $obj); ?>
                 </div>
             </div>
@@ -118,17 +118,17 @@ function ShowJournalForm($table, $obj)
     <form class='form-horizontal'>
 
         <div class='form-group'>
-            <label for='journalsname' class='control-label col-sm-3'>Название: </label>
+            <label for='journalsname' class='control-label col-sm-3 col-md-3 col-lg-3'>Название: </label>
 
-            <div class="col-sm-9">
+            <div class="col-sm-9 col-md-9 col-lg-9">
                 <?= GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj); ?>
             </div>
         </div>
 
         <div class='form-group'>
-            <label for='journalstype' class='control-label col-sm-3'>Тип: </label>
+            <label for='journalstype' class='control-label col-sm-3 col-md-3 col-lg-3'>Тип: </label>
 
-            <div class="col-sm-9 col-xs-12">
+            <div class="col-sm-9 col-md-9 col-lg-9 col-xs-12">
                 <?= GetHtmlElement($table, 'type', '', $types); ?>
             </div>
         </div>
@@ -136,30 +136,30 @@ function ShowJournalForm($table, $obj)
         <div class='form-group'>
 
             <div class='checkbox'>
-                <label for='journalsimpfactor' class='control-label col-sm-3'>Импакт-фактор: </label>
+                <label for='journalsimpfactor' class='control-label col-sm-3 col-md-3 col-lg-3'>Импакт-фактор: </label>
 
-                <div class="col-sm-9">
+                <div class="col-sm-9 col-md-9 col-lg-9">
                     <?= GetHtmlElement($table, 'impfactor', 'class="publyear"', '', '', $obj); ?>
                 </div>
             </div>
 
             <div class='checkbox'>
                 <div class="space"></div>
-                <label for="journalsinrinc" class="col-sm-3 control-label">РИНЦ:
+                <label for="journalsinrinc" class="col-sm-3 col-md-3 col-lg-3 control-label">РИНЦ:
                     <?= GetHtmlElement($table, 'inrinc', '', '', '', $obj); ?>
                 </label>
             </div>
 
             <div class="checkbox">
                 <div class="space"></div>
-                <label for="journalsreviewed" class="col-sm-3 control-label">Рецензируемый:
+                <label for="journalsreviewed" class="col-sm-3 col-md-3 col-lg-3 control-label">Рецензируемый:
                     <?= GetHtmlElement($table, 'reviewed', '', '', '', $obj); ?>
                 </label>
             </div>
 
             <div class="checkbox">
                 <div class="space"></div>
-                <label for="journalsinvak" class="col-sm-3 control-label">ВАК:
+                <label for="journalsinvak" class="col-sm-3 col-md-3 col-lg-3 control-label">ВАК:
                     <?= GetHtmlElement($table, 'invak', '', '', '', $obj); ?>
                 </label>
             </div>
@@ -169,33 +169,33 @@ function ShowJournalForm($table, $obj)
 
             <div class="form-group">
                 <div class="checkbox">
-                    <label for="journalsinscopus" class="col-sm-3 control-label">Scopus:
+                    <label for="journalsinscopus" class="col-sm-3 col-md-3 col-lg-3 control-label">Scopus:
                         <?= GetHtmlElement($table, 'inscopus', '', '', '', $obj); ?>
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <div class="space"></div>
-                    <label for="journalsinwos" class="col-sm-3 control-label"> Web of Science:
+                    <label for="journalsinwos" class="col-sm-3 col-md-3 col-lg-3 control-label"> Web of Science:
                         <?= GetHtmlElement($table, 'inwos', '', '', '', $obj); ?>
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <div class="space"></div>
-                    <label for="journalsinforeignindex" class="col-sm-3 control-label">Другие иностранные индексы:
+                    <label for="journalsinforeignindex" class="col-sm-3 col-md-3 col-lg-3 control-label">Другие иностранные индексы:
                         <?= GetHtmlElement($table, 'inforeignindex', '', '', '', $obj); ?>
                     </label>
                 </div>
             </div>
 
-            <div class="group col-sm-9">
+            <div class="group col-sm-9 col-md-9 col-lg-9">
 
 
                 <div class='form-group'>
-                    <label for='journalspublisherid' class='control-label col-sm-3'>Издательство:</label>
+                    <label for='journalspublisherid' class='control-label col-sm-3 col-md-3 col-lg-3'>Издательство:</label>
 
-                    <div class="col-sm-9">
+                    <div class="col-sm-9 col-md-9 col-lg-9">
                         <?= GetHtmlElement($table, 'publisherid', '', $publishers); ?>
                     </div>
                 </div>
@@ -214,13 +214,13 @@ function ShowJournalForm($table, $obj)
                 </div>
             </div>
 
-            <div class="group col-sm-9">
+            <div class="group col-sm-9 col-md-9 col-lg-9">
 
 
                 <div class='form-group'>
-                    <label for='journalssceventid' class='control-label col-sm-3'>Научное мероприятие:</label>
+                    <label for='journalssceventid' class='control-label col-sm-3 col-md-3 col-lg-3'>Научное мероприятие:</label>
 
-                    <div class="col-sm-9">
+                    <div class="col-sm-9 col-md-9 col-lg-9">
                         <?= GetHtmlElement($table, 'sceventid', '', $scevents); ?>
                     </div>
                 </div>
@@ -278,20 +278,20 @@ function ShowPublicationForm($table, $obj)
     <form class="form-horizontal">
 
     <div class="form-group">
-        <label for="publicationsname" class="control-label col-sm-4">Название:</label>
+        <label for="publicationsname" class="control-label col-sm-4 col-md-4 col-lg-4">Название:</label>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8 col-md-8 col-lg-8">
             <?= GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj); ?>
         </div>
     </div>
 
 
-    <div class="group highlight col-sm-10">
+    <div class="group highlight col-sm-10 col-md-10 col-lg-10">
 
         <div class="form-group">
-            <label class="control-label col-sm-4">Авторы: </label>
+            <label class="control-label col-sm-4 col-md-4 col-lg-4">Авторы: </label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?php
                 $objAuth = new stdClass();
                 $objAuth->publicationid = $obj->id;
@@ -301,7 +301,7 @@ function ShowPublicationForm($table, $obj)
         </div>
 
 
-        <div class="group col-sm-4">
+        <div class="group col-sm-4 col-md-4 col-lg-4">
             <div class="form-group">
                 <?= GetHtmlElement('authorpublications', 'authorid', 'size="5" class="authorlist"', $authors_publ); ?>
             </div>
@@ -313,7 +313,7 @@ function ShowPublicationForm($table, $obj)
             </div>
         </div>
 
-        <div class="group aligntop col-sm-2">
+        <div class="group aligntop col-sm-2 col-md-2 col-lg-2">
             <div class="btn-group-vertical">
                 <a class="btn btn-default" href="javascript:moveOption('authall','authorpublicationsauthorid')"><i
                         class="glyphicon glyphicon-chevron-left"></i></a>
@@ -322,7 +322,7 @@ function ShowPublicationForm($table, $obj)
             </div>
         </div>
 
-        <div class="group col-sm-4">
+        <div class="group col-sm-4 col-md-4 col-lg-4">
             <div class="form-group">
                 <select class="form-control" size="5" class="authorlist" id="authall"><?= $authors_other ?></select>
             </div>
@@ -343,9 +343,9 @@ function ShowPublicationForm($table, $obj)
     <div style='clear: both;'>&nbsp;</div>
     <div class="form-group">
 
-        <label for="publicationsyear" class="control-label col-sm-4">Год издания:</label>
+        <label for="publicationsyear" class="control-label col-sm-4 col-md-4 col-lg-4">Год издания:</label>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8 col-md-8 col-lg-8">
             <?= GetHtmlElement($table, 'year', 'class="publyear"', '', '', $obj); ?>
         </div>
     </div>
@@ -353,27 +353,27 @@ function ShowPublicationForm($table, $obj)
     <div class="form-group">
 
         <div class="space"></div>
-        <label for="publicationslang" class="control-label col-sm-4">Язык:</label>
+        <label for="publicationslang" class="control-label col-sm-4 col-md-4 col-lg-4">Язык:</label>
 
-        <div class="col-sm-7">
+        <div class="col-sm-7 col-md-7 col-lg-7">
             <?= GetHtmlElement($table, 'lang', '', $langs); ?>
         </div>
     </div>
 
     <div class="form-group">
         <div class="space"></div>
-        <label for="publicationsurl" class="control-label col-sm-4">URL с выходными данными:</label>
+        <label for="publicationsurl" class="control-label col-sm-4 col-md-4 col-lg-4">URL с выходными данными:</label>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8 col-md-8 col-lg-8">
             <?= GetHtmlElement($table, 'url', '', '', '', $obj); ?>
         </div>
     </div>
 
 
     <div class="form-group">
-        <label for="publicationstype" class="control-label col-sm-4">Тип:</label>
+        <label for="publicationstype" class="control-label col-sm-4 col-md-4 col-lg-4">Тип:</label>
 
-        <div class="col-sm-7">
+        <div class="col-sm-7 col-md-7 col-lg-7">
             <?= GetHtmlElement($table, 'type', 'onchange="onPublTypeChange()"', $types); ?>
         </div>
     </div>
@@ -385,9 +385,9 @@ function ShowPublicationForm($table, $obj)
 
 
             <div class="form-group">
-                <label for="publicationsjournalid" class="control-label col-sm-4">Журнал (сборник):</label>
+                <label for="publicationsjournalid" class="control-label col-sm-4 col-md-4 col-lg-4">Журнал (сборник):</label>
 
-                <div class="col-sm-7">
+                <div class="col-sm-7 col-md-7 col-lg-7">
                     <?= GetHtmlElement($table, 'journalid', '', $journals); ?>
                 </div>
             </div>
@@ -409,26 +409,26 @@ function ShowPublicationForm($table, $obj)
 
 
         <div class="form-group">
-            <label for="publicationsjournalnumber" class="control-label col-sm-4">Номер журнала:</label>
+            <label for="publicationsjournalnumber" class="control-label col-sm-4 col-md-4 col-lg-4">Номер журнала:</label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?= GetHtmlElement($table, 'journalnumber', '', '', '', $obj); ?>
             </div>
         </div>
 
 
         <div class="form-group">
-            <label for="publicationsjournalpagestart" class="control-label col-sm-4">Начальная страница:</label>
+            <label for="publicationsjournalpagestart" class="control-label col-sm-4 col-md-4 col-lg-4">Начальная страница:</label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?= GetHtmlElement($table, 'journalpagestart', 'class="publyear"', '', '', $obj) ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="publicationsjournalpageend" class="control-label col-sm-4">Конечная страница:</label>
+            <label for="publicationsjournalpageend" class="control-label col-sm-4 col-md-4 col-lg-4">Конечная страница:</label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?= GetHtmlElement($table, 'journalpageend', 'class="publyear"', '', '', $obj) ?>
             </div>
         </div>
@@ -444,7 +444,7 @@ function ShowPublicationForm($table, $obj)
 
             <div class="form-group">
                 <label for="journalspublisherid" class="control-label ">Издательство:</label>
-                <div class="col-sm-7">
+                <div class="col-sm-7 col-md-7 col-lg-7">
 
 
                     <?= GetHtmlElement($table, 'publisherid', '', $publishers) ?>
@@ -498,57 +498,57 @@ function ShowScEventForm($table, $obj)
     ?>
     <div class="group">
         <div class="form-group">
-            <label for="sceventsname" class="control-label col-sm-3">Название: </label>
+            <label for="sceventsname" class="control-label col-sm-3 col-md-3 col-lg-3">Название: </label>
 
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-7 col-lg-7">
                 <?= GetHtmlElement($table, 'name', 'class="publname"', '', '', $obj); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="sceventsplace" class="control-label col-sm-3">Место: </label>
+            <label for="sceventsplace" class="control-label col-sm-3 col-md-3 col-lg-3">Место: </label>
 
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-7 col-lg-7">
                 <?= GetHtmlElement($table, 'place', '', '', '', $obj); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="sceventsdate" class="control-label col-sm-3">Дата: </label>
+            <label for="sceventsdate" class="control-label col-sm-3 col-md-3 col-lg-3">Дата: </label>
 
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-7 col-lg-7">
                 <?= GetHtmlElement($table, 'date', '', '', '', $obj); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="sceventsyear" class="control-label col-sm-3">Год: </label>
+            <label for="sceventsyear" class="control-label col-sm-3 col-md-3 col-lg-3">Год: </label>
 
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-7 col-lg-7">
                 <?= GetHtmlElement($table, 'year', 'class="publyear"', '', '', $obj); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="sceventslevel" class="control-label col-sm-3">Уровень: </label>
+            <label for="sceventslevel" class="control-label col-sm-3 col-md-3 col-lg-3">Уровень: </label>
 
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-7 col-lg-7">
                 <?= GetHtmlElement($table, 'level', '', $levels); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="sceventstype" class="control-label col-sm-3">Тип: </label>
+            <label for="sceventstype" class="control-label col-sm-3 col-md-3 col-lg-3">Тип: </label>
 
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-7 col-lg-7">
                 <?= GetHtmlElement($table, 'type', '', $types); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="sceventsstatus" class="control-label col-sm-3">Статус: </label>
+            <label for="sceventsstatus" class="control-label col-sm-3 col-md-3 col-lg-3">Статус: </label>
 
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-7 col-lg-7">
                 <?= GetHtmlElement($table, 'status', '', $statuses); ?>
             </div>
         </div>
@@ -564,25 +564,25 @@ function ShowPublisherForm($table, $obj, $parent)
     ?>
     <div class="group">
         <div class="form-group">
-            <label for="journalspublishersname" class="control-label col-sm-3">Название: </label>
+            <label for="journalspublishersname" class="control-label col-sm-3 col-md-3 col-lg-3">Название: </label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?= GetHtmlElement($table, 'name', '', '', $parent, $obj); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="journalspublisherscity" class="control-label col-sm-3">Город: </label>
+            <label for="journalspublisherscity" class="control-label col-sm-3 col-md-3 col-lg-3">Город: </label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?= GetHtmlElement($table, 'city', '', '', $parent, $obj); ?>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="journalspublishersname" class="control-label col-sm-3">Тип: </label>
+            <label for="journalspublishersname" class="control-label col-sm-3 col-md-3 col-lg-3">Тип: </label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?= GetHtmlElement($table, 'type', '', $types, $parent); ?>
             </div>
         </div>
@@ -600,15 +600,15 @@ function ShowParticipationForm($table, $obj)
     <div class="group">
 
     <div class="form-group">
-        <label class="control-label col-sm-4">Участник:</label>
+        <label for="participationsauthorid" class="control-label col-sm-4 col-md-4 col-lg-4">Участник:</label>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8 col-md-8 col-lg-8">
             <?= GetHtmlElement($table, 'authorid', '', $authors); ?>
         </div>
     </div>
 
     <div class="btn-group">
-        <a class="btn btn-default" href="javascript:showBlock('authors')">Новый</a>';
+        <a class="btn btn-default" href="javascript:showBlock('authors')">Новый</a>
         <a class="btn btn-default"
            href="javascript:showBlock('authors',getSel('participationsauthorid'))">Редактировать</a>
         <a class="btn btn-default" href="javascript:del('authors',getSel('participationsauthorid'))">Удалить</a>
@@ -620,9 +620,9 @@ function ShowParticipationForm($table, $obj)
 
     <div class="group">
         <div class="form-group">
-            <label class="control-label col-sm-4">Мероприятие: </label>
+            <label for="participationssceventid" class="control-label col-sm-4 col-md-4 col-lg-4">Мероприятие: </label>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-md-8 col-lg-8">
                 <?= GetHtmlElement($table, 'sceventid', '', $scevents); ?>
             </div>
         </div>
