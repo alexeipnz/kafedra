@@ -80,7 +80,7 @@ function ShowAuthorForm($table, $obj)
     <form class='form-horizontal'>
         <div class="group col-sm-12 col-md-12 col-lg-12">
             <div class='form-group'>
-                <label for='authorsname' class='control-label col-sm-4 col-md-4 col-lg-4'>Фамилия И. О.:</label>
+                <label for='authorsname' class='control-label col-sm-3 col-md-3 col-lg-3'>Фамилия И.О.:</label>
 
                 <div class="col-sm-7 col-md-7 col-lg-7">
                     <?= GetHtmlElement($table, 'name', '', '', '', $obj); ?>
@@ -97,7 +97,7 @@ function ShowAuthorForm($table, $obj)
             </div>
 
             <div class='form-group'>
-                <label for='authorsstudentgroup' class='control-label col-sm-4 col-md-4 col-lg-4'>Студент группы </label>
+                <label for='authorsstudentgroup' class='control-label col-sm-3 col-md-3 col-lg-3'>Студент группы </label>
 
                 <div class="col-sm-8 col-md-8 col-lg-8">
                     <?= GetHtmlElement($table, 'studentgroup', '', '', '', $obj); ?>
@@ -116,7 +116,7 @@ function ShowJournalForm($table, $obj)
     $scevents = GetOptionsString2('scevents', $obj->sceventid, true);
     ?>
     <form class='form-horizontal'>
-
+        <div style='clear: both;'>&nbsp;</div>
         <div class='form-group'>
             <label for='journalsname' class='control-label col-sm-3 col-md-3 col-lg-3'>Название: </label>
 
@@ -598,14 +598,15 @@ function ShowParticipationForm($table, $obj)
     ?>
 
     <div class="group">
-
+    <div style='clear: both;'>&nbsp;</div>
     <div class="form-group">
-        <label for="participationsauthorid" class="control-label col-sm-4 col-md-4 col-lg-4">Участник:</label>
+        <label for="participationsauthorid" class="control-label col-sm-6 col-md-6 col-lg-6">Участник:</label>
 
-        <div class="col-sm-8 col-md-8 col-lg-8">
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <?= GetHtmlElement($table, 'authorid', '', $authors); ?>
         </div>
     </div>
+    <div style='clear: both;'>&nbsp;</div>
 
     <div class="btn-group">
         <a class="btn btn-default" href="javascript:showBlock('authors')">Новый</a>
@@ -620,12 +621,13 @@ function ShowParticipationForm($table, $obj)
 
     <div class="group">
         <div class="form-group">
-            <label for="participationssceventid" class="control-label col-sm-4 col-md-4 col-lg-4">Мероприятие: </label>
+            <label for="participationssceventid" class="control-label col-sm-6 col-md-6 col-lg-6">Мероприятие: </label>
 
-            <div class="col-sm-8 col-md-8 col-lg-8">
+            <div class="col-sm-6 col-md-6 col-lg-6">
                 <?= GetHtmlElement($table, 'sceventid', '', $scevents); ?>
             </div>
         </div>
+        <div style='clear: both;'>&nbsp;</div>
 
         <div class="btn-group">
             <a class="btn btn-default" href="javascript:showBlock('scevents')">Новое</a>
